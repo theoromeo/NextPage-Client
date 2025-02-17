@@ -1,0 +1,76 @@
+<div id="nextpage-viewer"
+class="hidden">
+    <!-- View Component Close Button -->
+    <button id="nextpage-viewer-btn"
+        class=" pointer-events-auto ml-auto mb-2 rounded-full hidden md:flex md:w-9 md:h-9 bg-bg border border-white border-opacity-10 justify-center items-center hover:scale-[85%]  duration-500">
+        <svg class="fill-white w-4 " viewBox="0 0 15 15">
+            <path
+                d="M15 1.51071L13.4893 0L7.5 5.98929L1.51071 0L0 1.51071L5.98929 7.5L0 13.4893L1.51071 15L7.5 9.01071L13.4893 15L15 13.4893L9.01071 7.5L15 1.51071Z" />
+        </svg>
+    </button>
+
+    <!-- View Component -->
+    <div id="nextpage-viewer-container"
+        class=" pointer-events-auto relative mx-auto md:mx-0 md:ml-auto bg-bg max-w-[500px] md:max-w-[350px] rounded-3xl border border-white border-opacity-10 w-full p-4 text-white space-y-4 ">
+
+
+        <header class="flex items-center text-base text-white -mb-2">
+
+            <!-- site label -->
+            <h2 id="nextpage-site" class=" text-sm opacity-50 truncate pr-4"></h2>
+
+            <!-- security badge -->
+            <div id="nextpage-secure"
+                class="bg-white bg-opacity-10 rounded-full px-2 py-[2px] flex items-center space-x-2  ml-auto text-sm">
+                <p id="nextpage-secure-label" class="text-sm text-opacity-80 text-white">not secure</p>
+
+                <!-- Secure badge -->
+                <svg id="nextpage-secure-true" class="hidden opacity-80 fill-white w-4" viewBox="0 0 339 339">
+                    <path
+                        d="M267.375 116.333H251.062V85.9524C251.062 44.0267 214.523 10 169.5 10C124.477 10 87.9375 44.0267 87.9375 85.9524V116.333H71.625C53.6812 116.333 39 130.005 39 146.714V298.619C39 315.329 53.6812 329 71.625 329H267.375C285.319 329 300 315.329 300 298.619V146.714C300 130.005 285.319 116.333 267.375 116.333ZM169.5 253.048C151.556 253.048 136.875 239.376 136.875 222.667C136.875 205.957 151.556 192.286 169.5 192.286C187.444 192.286 202.125 205.957 202.125 222.667C202.125 239.376 187.444 253.048 169.5 253.048ZM220.069 116.333H118.931V85.9524C118.931 59.9767 141.606 38.8619 169.5 38.8619C197.394 38.8619 220.069 59.9767 220.069 85.9524V116.333Z"/>
+                </svg>
+
+                <!-- Insecure badge -->
+                <svg id="nextpage-secure-false" class="fill-white w-4 opacity-80 hidden" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960">
+                    <path d="M109-87q-20 0-35.09-9.8Q58.83-106.6 50-122q-9-14-9-32.1 0-18.09 9-35.9l371-640q9-18 25.6-26 16.61-8 33.5-8 16.9 0 33.4 8t25.5 26l371 640q9 17.81 9 35.9 0 18.1-9 32.1-9 15-24 25t-35 10H109Zm92-121h558L480-690 201-208Zm279-25q21 0 35.5-14.5T530-283q0-20-14.5-34.5T480-332q-20 0-35 14.5T430-283q0 21 15 35.5t35 14.5Zm0-125q19 0 32-13.5t13-31.5v-101q0-19-13-32t-32-13q-18 0-31.5 13T435-504v101q0 18 13.5 31.5T480-358Zm0-91Z"/>
+                </svg>
+            </div>
+        </header>
+
+        <article class="flex flex-col space-y-2">
+
+            <!-- title -->
+            <h1 id="nextpage-title" class="text-xl  md:text-lg">
+            </h1>
+
+            <!-- description -->
+            <p id="nextpage-desc" class="opacity-80 md:text-sm "></p>
+
+            <!-- article -->
+            <p id="nextpage-article" class="opacity-80  md:text-sm"></p>
+
+            <!-- gallery -->
+            <div id="nextpage-gallery" class="grid gap-2 grid-cols-2 hidden">
+                <!-- <img class="aspect-video bg-gray-100 bg-opacity-5 object-cover rounded-lg" src="" alt=""> -->
+            </div>
+
+        </article>
+
+        <!-- action -->
+        <a id="nextpage-action" href="" target="_blank"
+            class="p-1 pl-4 w-full flex items-center  hover:bg-opacity-70 rounded-full">
+
+            <!-- label -->
+            <p id="nextpage-action-label" class="md:text-sm truncate pr-2">Continue To Site</p>
+
+            <!-- icon -->
+            <div class="ml-auto rounded-full min-w-12 max-w-12 aspect-square md:min-w-9 md:max-h-9 bg-white flex justify-center items-center">
+                <svg class="w-3" viewBox="0 0 14 14" fill="none">
+                    <path
+                        d="M14 1C14 0.447716 13.5523 7.65032e-07 13 7.65032e-07L4 7.65032e-07C3.44771 7.65032e-07 3 0.447716 3 1C3 1.55229 3.44771 2 4 2H12V10C12 10.5523 12.4477 11 13 11C13.5523 11 14 10.5523 14 10L14 1ZM1.70711 13.7071L13.7071 1.70711L12.2929 0.292894L0.292893 12.2929L1.70711 13.7071Z"
+                        fill="black" />
+                </svg>
+            </div>
+        </a>
+    </div>
+</div>

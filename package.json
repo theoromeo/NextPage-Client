@@ -1,0 +1,31 @@
+{
+  "name": "nextpage-client",
+  "version": "0.5.0",
+  "description": "The NextPage Client provides an interface for users to interact with NextPage-enabled pages.",
+  "main": "build/nextpage-client.min.js",
+  "browser": "build/nextpage-client.min.js",
+  "author": "Romeo Pickering <theoromeo@gmail.com> (https://bypickering.com)",
+  "license": "GPL-3.0",
+  "type": "module",
+  "scripts": 
+  {
+    "tw": "tailwindcss -i ./src/style/main.scss -o ./src/style/main.css --watch",
+    "tw-examples": "tailwindcss -c ./examples/tailwind.config.js -i ./examples/main.scss -o ./examples/main.css --watch",
+    "dev": "vite", 
+    "build": "vite build ",
+    "build-watch": "vite build --watch"
+  },
+  "devDependencies": 
+  {
+    "tailwindcss": "^3.4.17",
+    "vite": "^6.1.0"
+  },
+  "keywords": [
+    "NextPage",
+    "NextPage-Client",
+    "web-parser",
+    "dynamic-content",
+    "client-interface"
+  ]
+  
+}
