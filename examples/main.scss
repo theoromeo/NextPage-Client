@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+a
+{
+    @apply border-b pb-1 border-blue-500  text-blue-500
+}
+
+article
+{
+    @apply mt-4;
+}
+
+article > h2 
+{
+    @apply text-lg font-bold 
+} 
+
+body 
+{
+    @apply px-2
+}
