@@ -1,28 +1,19 @@
 <div id="nextpage-viewer"
 class="hidden">
-    <!-- View Component Close Button -->
-    <button id="nextpage-viewer-btn"
-        class=" pointer-events-auto ml-auto mb-2 rounded-full hidden md:flex md:w-9 md:h-9 bg-bg border border-white border-opacity-10 justify-center items-center hover:scale-[85%]  duration-500">
-        <svg class="fill-white w-4 " viewBox="0 0 15 15">
-            <path
-                d="M15 1.51071L13.4893 0L7.5 5.98929L1.51071 0L0 1.51071L5.98929 7.5L0 13.4893L1.51071 15L7.5 9.01071L13.4893 15L15 13.4893L9.01071 7.5L15 1.51071Z" />
-        </svg>
-    </button>
-
     <!-- View Component -->
     <div id="nextpage-viewer-container"
-        class=" pointer-events-auto relative mx-auto md:mx-0 md:ml-auto bg-bg max-w-[500px] md:max-w-[350px] rounded-3xl border border-white border-opacity-10 w-full p-4 text-white space-y-4 ">
+        class=" pointer-events-auto relative mx-auto md:mx-0 md:ml-auto bg-bg max-w-[500px] md:max-w-[380px] rounded-2xl border border-white border-opacity-10 w-full p-4 text-white space-y-5 ">
 
 
         <header class="flex items-center text-base text-white -mb-2">
 
             <!-- site label -->
-            <h2 id="nextpage-site" class=" text-sm opacity-50 truncate pr-4"></h2>
+            <h2 id="nextpage-site" class=" text-xs opacity-50 truncate pr-4"></h2>
 
             <!-- security badge -->
             <div id="nextpage-secure"
-                class="bg-white bg-opacity-10 rounded-full px-2 py-[2px] flex items-center space-x-2  ml-auto text-sm">
-                <p id="nextpage-secure-label" class="text-sm text-opacity-80 text-white">not secure</p>
+                class="bg-white bg-opacity-10 rounded-full px-2 py-[4px] flex items-center space-x-2  ml-auto text-xs">
+                <p id="nextpage-secure-label" class="text-xs text-opacity-80 text-white">not secure</p>
 
                 <!-- Secure badge -->
                 <svg id="nextpage-secure-true" class="hidden opacity-80 fill-white w-4" viewBox="0 0 339 339">
@@ -35,12 +26,20 @@ class="hidden">
                     <path d="M109-87q-20 0-35.09-9.8Q58.83-106.6 50-122q-9-14-9-32.1 0-18.09 9-35.9l371-640q9-18 25.6-26 16.61-8 33.5-8 16.9 0 33.4 8t25.5 26l371 640q9 17.81 9 35.9 0 18.1-9 32.1-9 15-24 25t-35 10H109Zm92-121h558L480-690 201-208Zm279-25q21 0 35.5-14.5T530-283q0-20-14.5-34.5T480-332q-20 0-35 14.5T430-283q0 21 15 35.5t35 14.5Zm0-125q19 0 32-13.5t13-31.5v-101q0-19-13-32t-32-13q-18 0-31.5 13T435-504v101q0 18 13.5 31.5T480-358Zm0-91Z"/>
                 </svg>
             </div>
+
+            <!-- View Component Close Button -->
+            <button id="nextpage-viewer-btn" class=" pointer-events-auto ml-2 opacity-70 hover:opacity-100 group  hidden md:flex  justify-center items-center p-2 pr-0 ">
+                <svg class="fill-white w-3 group-hover:scale-[85%] duration-500" viewBox="0 0 15 15">
+                    <path
+                        d="M15 1.51071L13.4893 0L7.5 5.98929L1.51071 0L0 1.51071L5.98929 7.5L0 13.4893L1.51071 15L7.5 9.01071L13.4893 15L15 13.4893L9.01071 7.5L15 1.51071Z" />
+                </svg>
+            </button>
         </header>
 
         <article class="flex flex-col space-y-2">
 
             <!-- title -->
-            <h1 id="nextpage-title" class="text-xl  md:text-lg">
+            <h1 id="nextpage-title" class="text-base font-medium md:font-normal  md:text-base">
             </h1>
 
             <!-- description -->
