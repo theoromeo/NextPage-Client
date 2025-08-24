@@ -107,7 +107,7 @@
 }
 
 /*
-! tailwindcss v3.4.16 | MIT License | https://tailwindcss.com
+! tailwindcss v3.4.17 | MIT License | https://tailwindcss.com
 */
 
 /*
@@ -603,6 +603,10 @@ video {
   margin-right: 1.5rem;
 }
 
+.inline-block {
+  display: inline-block;
+}
+
 .flex {
   display: flex;
 }
@@ -692,6 +696,10 @@ video {
 
 .animate-spin {
   animation: spin 1s linear infinite;
+}
+
+.cursor-alias {
+  cursor: alias;
 }
 
 .grid-cols-2 {
@@ -803,6 +811,11 @@ video {
 .bg-white {
   --tw-bg-opacity: 1;
   background-color: rgb(255 255 255 / var(--tw-bg-opacity, 1));
+}
+
+.bg-orange-500 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(249 115 22 / var(--tw-bg-opacity, 1));
 }
 
 .bg-opacity-10 {
@@ -996,13 +1009,6 @@ video {
 
   .md\:font-normal {
     font-weight: 400;
-  }
-}
-
-@media (prefers-color-scheme: dark) {
-  .dark\:bg-bg {
-    --tw-bg-opacity: 1;
-    background-color: rgb(31 31 31 / var(--tw-bg-opacity, 1));
   }
 }
 

@@ -141,6 +141,7 @@ class NextPageClient extends HTMLElement
 
     linkElement.href = this.purgeQuery(linkElement.href)
     linkUrl.nodeless = linkElement.href
+    linkElement.setAttribute("style", linkElement.getAttribute("style")+"; cursor: alias;")
 
     if(this.getQueryNode(linkUrl.href) == "")
     return
