@@ -187,8 +187,8 @@ The compiled artifact will be output to the `/build` directory located in the ro
 To run the examples, you’ll need to set up a local hostname in your `vite.config.js`.  
 Luckily, the configuration is already included in the project setup.  
 
-However, you must also configure a virtual local hostname on your device.  
-This is required because NextPage-Parser validates URLs before fetching content and does not accept IP-based addresses as valid sources.
+However, you must also configure a virtual local hostname as `localhost.local` on your device.  
+This is required because NextPage validates URLs before fetching content and does not accept IP-based addresses as valid sources.
 
 For guidance on setting up a hostname on your device:
 
