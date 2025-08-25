@@ -12,6 +12,8 @@
 
 NextPage is a protocol and interface that turns information dense webpages into dynamic objects that share the most important content and actions like signup forms directly to users, without the user needing to leave the page.
 
+This is just a quick start guide. For the full documentation, visit the [NextPage Parser Repository](https://github.com/theoromeo/NextPage-Parser).
+
 ## Index
 * [How NextPage Works (High-Level Overview)](#🗜️-how-nextpage-works-high-level-overview)
     - [Defining NextPage-Enabled Webpages](#📝-defining-nextpage-enabled-webpages)
