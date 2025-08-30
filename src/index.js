@@ -9,8 +9,8 @@ class NextPageClient extends HTMLElement
 {
   // Private Fields
   #id
+  #isTerminatedView
 
-  
   constructor()
   {
     if(document.getElementsByTagName("next-page").length > 1)
@@ -18,23 +18,22 @@ class NextPageClient extends HTMLElement
     
     super()
     this.DOM = this.attachShadow({mode:"closed"})
-    this.render()
+    this.#render()
 
-    this.isTerminatedView = false
+    this.#isTerminatedView = false
 
     document.addEventListener("DOMContentLoaded",() => 
     {
-      this.initUiObjects()
-      this.initUiListeners()
-      this.initIntercept()
-      this.initChangeObserver()
+      this.#initUiObjects()
+      this.#initUiListeners()
+      this.#initIntercept()
+      this.#initChangeObserver()
     })
 
     
-    this.#id = this.generateInstantId();
+    this.#id = this.#generateInstantId();
     console.info(`[Instance ID: ${this.#id}]  NextPage Client initialized  successfully.`)
 
-    console.log(this)
   }
 
   getID()
@@ -42,26 +41,26 @@ class NextPageClient extends HTMLElement
     return this.#id
   }
 
-  generateInstantId() 
+  #generateInstantId() 
   {
     return Math.floor(Math.random() * 10000)
   }
 
-  render()
+  #render()
   {
     this.DOM.innerHTML = `
     <style>
       ${css}
     </style>
 
-    <div id="nextpage-window" class=" pointer-events-none flex fixed top-0  left-0 flex-col w-screen h-[100${this.getSupportedHeight()}]  py-4 px-4 justify-end ">
+    <div id="nextpage-window" class=" pointer-events-none flex fixed top-0  left-0 flex-col w-screen h-[100${this.#getSupportedHeight()}]  py-4 px-4 justify-end ">
       ${loaderHtml}
       ${viewerHtml}
     </div>
     `
   }
 
-  getSupportedHeight()
+  #getSupportedHeight()
   {
     const temp = document.createElement('div');
     document.body.appendChild(temp);
@@ -76,7 +75,7 @@ class NextPageClient extends HTMLElement
     return "vh"
   }
 
-  initChangeObserver()
+  #initChangeObserver()
   {
     const observer = new MutationObserver ((mutations) => 
     {
@@ -91,10 +90,10 @@ class NextPageClient extends HTMLElement
           continue;
 
           if (node.matches("[href]"))
-          this.addInterceptListener(node)
+          this.#addInterceptListener(node)
 
           const links = node.querySelectorAll("[href]")
-          links.forEach((link) => this.addInterceptListener(link))
+          links.forEach((link) => this.#addInterceptListener(link))
         }
       }
     })
@@ -102,7 +101,7 @@ class NextPageClient extends HTMLElement
 
   }
 
-  initUiObjects()
+  #initUiObjects()
   {
     this.ui = 
     {
@@ -130,25 +129,25 @@ class NextPageClient extends HTMLElement
 
   }
 
-  initUiListeners()
+  #initUiListeners()
   {
     this.ui.loaderBtn.addEventListener("click", () => this.closeLoaderEvent())
     this.ui.viewerBtn.addEventListener("click", () => this.closeViewerEvent())
     this.ui.window.addEventListener("click", () => this.closeWindowEvent())
 
-    this.stopEventPropagation(this.ui.viewer)
-    this.stopEventPropagation(this.ui.loader)
+    this.#stopEventPropagation(this.ui.viewer)
+    this.#stopEventPropagation(this.ui.loader)
   }
 
-  initIntercept()
+  #initIntercept()
   {
     const linkElements = document.querySelectorAll(`[href]`) 
     
     for(const linkElement of linkElements)
-    this.addInterceptListener(linkElement)
+    this.#addInterceptListener(linkElement)
   }
 
-  addInterceptListener(linkElement)
+  #addInterceptListener(linkElement)
   {
     if(!linkElement || !linkElement.href || linkElement.href.trim() == "")
     return
@@ -158,17 +157,17 @@ class NextPageClient extends HTMLElement
     if(!linkUrl.pathname.includes(":"))
     return
 
-    linkElement.href = this.purgeQuery(linkElement.href)
+    linkElement.href = this.#purgeQuery(linkElement.href)
     linkUrl.nodeless = linkElement.href
     linkElement.setAttribute("style", linkElement.getAttribute("style")+"; cursor: alias;")
 
     if(this.getQueryNode(linkUrl.href) == "")
     return
 
-    linkElement.addEventListener("click", (event) => this.interceptEvent(event,linkUrl))
+    linkElement.addEventListener("click", (event) => this.#interceptEvent(event,linkUrl))
   }
 
-  async interceptEvent(event,url)
+  async #interceptEvent(event,url)
   {
     event.preventDefault()
 
@@ -187,7 +186,7 @@ class NextPageClient extends HTMLElement
     const nextPage = new NextPage()
 
     this.show(this.ui.loader)
-    this.isTerminatedView = false
+    this.#isTerminatedView = false
     const nodeResult = await nextPage.queryWithUrl(event.target.href,queryNode)
     
     if(nodeResult instanceof Error)
@@ -202,13 +201,13 @@ class NextPageClient extends HTMLElement
 
   setNode(url, node)
   {
-    if(this.isTerminatedView == true)
+    if(this.#isTerminatedView == true)
     {
-      this.isTerminatedView = false
+      this.#isTerminatedView = false
       return
     }
 
-    this.setWindowPointerEvent(true)
+    this.#setWindowPointerEvent(true)
 
     if(!ViewTypesRegister[node.view])
     throw new ReferenceError("View <${node.view}> not valid")
@@ -221,8 +220,8 @@ class NextPageClient extends HTMLElement
   
       this.ui.viewerSite.innerText = url.host.replace("www.","")
   
-      this.setSecureBadge(url)
-      this.setAction(url,node)
+      this.#setSecureBadge(url)
+      this.#setAction(url,node)
       
       this.hide(this.ui.loader)
       this.show(this.ui.viewer)
@@ -230,7 +229,7 @@ class NextPageClient extends HTMLElement
     })
     
   }
-  setAction(url,node)
+  #setAction(url,node)
   {
     this.ui.viewerAction.classList.remove("bg-green-600")
     this.ui.viewerAction.classList.remove("bg-blue-500")
@@ -248,7 +247,7 @@ class NextPageClient extends HTMLElement
     this.ui.viewerAction.href = node.action[1]
   }
 
-  setSecureBadge(url)
+  #setSecureBadge(url)
   {
     const isSecure = url.protocol === "https:"
 
@@ -273,7 +272,7 @@ class NextPageClient extends HTMLElement
     return nodeName.trim().toLowerCase()
   }
 
-  purgeQuery(link)
+  #purgeQuery(link)
   {
     if(!link.includes(":"))
     return link
@@ -282,7 +281,7 @@ class NextPageClient extends HTMLElement
     return link.slice(0,nodePosition)
   }
 
-  stopEventPropagation(element)
+  #stopEventPropagation(element)
   {
     element.addEventListener("click",(event) => event.stopPropagation());
   }
@@ -290,7 +289,7 @@ class NextPageClient extends HTMLElement
   closeLoaderEvent()
   {
     this.reset()
-    this.isTerminatedView = true;
+    this.#isTerminatedView = true;
   }
 
   closeViewerEvent()
@@ -301,10 +300,10 @@ class NextPageClient extends HTMLElement
   closeWindowEvent()
   {
     this.reset()
-    this.setWindowPointerEvent(false)
+    this.#setWindowPointerEvent(false)
 
   }
-  setWindowPointerEvent(state)
+  #setWindowPointerEvent(state)
   {
 
     if(state)
