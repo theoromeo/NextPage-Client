@@ -7,6 +7,10 @@ import NextPage from "./lib/NextPage.2025-02-12.min.js"
 
 class NextPageClient extends HTMLElement
 {
+  // Private Fields
+  #id
+
+  
   constructor()
   {
     if(document.getElementsByTagName("next-page").length > 1)
@@ -26,7 +30,21 @@ class NextPageClient extends HTMLElement
       this.initChangeObserver()
     })
 
-    console.info("NextPage Client initialized successfully ...")
+    
+    this.#id = this.generateInstantId();
+    console.info(`[Instance ID: ${this.#id}]  NextPage Client initialized  successfully.`)
+
+    console.log(this)
+  }
+
+  getID()
+  {
+    return this.#id
+  }
+
+  generateInstantId() 
+  {
+    return Math.floor(Math.random() * 10000)
   }
 
   render()
