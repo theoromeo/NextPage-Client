@@ -26,6 +26,7 @@ class NextPageClient extends HTMLElement
       this.initChangeObserver()
     })
 
+    console.info("NextPage Client initialized successfully ...")
   }
 
   render()
