@@ -603,10 +603,6 @@ video {
   margin-right: 1.5rem;
 }
 
-.inline-block {
-  display: inline-block;
-}
-
 .flex {
   display: flex;
 }
@@ -696,10 +692,6 @@ video {
 
 .animate-spin {
   animation: spin 1s linear infinite;
-}
-
-.cursor-alias {
-  cursor: alias;
 }
 
 .grid-cols-2 {
@@ -811,11 +803,6 @@ video {
 .bg-white {
   --tw-bg-opacity: 1;
   background-color: rgb(255 255 255 / var(--tw-bg-opacity, 1));
-}
-
-.bg-orange-500 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(249 115 22 / var(--tw-bg-opacity, 1));
 }
 
 .bg-opacity-10 {

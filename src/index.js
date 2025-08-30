@@ -2,7 +2,7 @@ import viewerHtml from "./template/viewer.html?raw"
 import loaderHtml from "./template/loader.html?raw"
 import css from "./style/main.css?raw"
 
-import ViewTypes from "./ViewTypes.js";
+import ViewTypesRegister from "./ViewTypesRegister.js";
 import NextPage from "./lib/NextPage.2025-02-12.min.js"
 
 class NextPageClient extends HTMLElement
@@ -191,14 +191,14 @@ class NextPageClient extends HTMLElement
 
     this.setWindowPointerEvent(true)
 
-    if(!ViewTypes[node.view])
+    if(!ViewTypesRegister[node.view])
     throw new ReferenceError("View <${node.view}> not valid")
 
     requestAnimationFrame(() => 
     {
       this.reset()
 
-      ViewTypes[node.view](node, this.ui.viewer)
+      ViewTypesRegister[node.view](node, this.ui.viewer)
   
       this.ui.viewerSite.innerText = url.host.replace("www.","")
   
