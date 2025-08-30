@@ -10,6 +10,7 @@ class NextPageClient extends HTMLElement
   // Private Fields
   #id
   #isTerminatedView
+  #ui
 
   constructor()
   {
@@ -103,40 +104,40 @@ class NextPageClient extends HTMLElement
 
   #initUiObjects()
   {
-    this.ui = 
+    this.#ui = 
     {
       window:this.DOM.getElementById("nextpage-window"),
       loader:this.DOM.getElementById("nextpage-loader"),
       viewer:this.DOM.getElementById("nextpage-viewer")
     }
 
-    this.ui.loaderLabel =this.ui.loader.querySelector("#nextpage-loader-label"),
-    this.ui.loaderBtn =this.ui.loader.querySelector("#nextpage-loader-btn"),
-    this.ui.loaderGif =this.ui.loader.querySelector("#nextpage-loader-gif"),
+    this.#ui.loaderLabel =this.#ui.loader.querySelector("#nextpage-loader-label"),
+    this.#ui.loaderBtn =this.#ui.loader.querySelector("#nextpage-loader-btn"),
+    this.#ui.loaderGif =this.#ui.loader.querySelector("#nextpage-loader-gif"),
 
-    this.ui.viewerBtn = this.ui.viewer.querySelector("#nextpage-viewer-btn"),
-    this.ui.viewerLabel = this.ui.viewer.querySelector("#nextpage-secure-label"),
-    this.ui.viewerGallery = this.ui.viewer.querySelector("#nextpage-gallery"),
-    this.ui.viewerArticle = this.ui.viewer.querySelector("#nextpage-article"),
+    this.#ui.viewerBtn = this.#ui.viewer.querySelector("#nextpage-viewer-btn"),
+    this.#ui.viewerLabel = this.#ui.viewer.querySelector("#nextpage-secure-label"),
+    this.#ui.viewerGallery = this.#ui.viewer.querySelector("#nextpage-gallery"),
+    this.#ui.viewerArticle = this.#ui.viewer.querySelector("#nextpage-article"),
       
-    this.ui.viewerSecureLabel = this.ui.viewer.querySelector("#nextpage-secure-label"),
-    this.ui.viewerSecureFalse = this.ui.viewer.querySelector("#nextpage-secure-false"),
-    this.ui.viewerSecureTrue = this.ui.viewer.querySelector("#nextpage-secure-true"),
-    this.ui.viewerSite = this.ui.viewer.querySelector("#nextpage-site"),
+    this.#ui.viewerSecureLabel = this.#ui.viewer.querySelector("#nextpage-secure-label"),
+    this.#ui.viewerSecureFalse = this.#ui.viewer.querySelector("#nextpage-secure-false"),
+    this.#ui.viewerSecureTrue = this.#ui.viewer.querySelector("#nextpage-secure-true"),
+    this.#ui.viewerSite = this.#ui.viewer.querySelector("#nextpage-site"),
 
-    this.ui.viewerAction = this.ui.viewer.querySelector("#nextpage-action"),
-    this.ui.viewerActionLabel = this.ui.viewer.querySelector("#nextpage-action-label")
+    this.#ui.viewerAction = this.#ui.viewer.querySelector("#nextpage-action"),
+    this.#ui.viewerActionLabel = this.#ui.viewer.querySelector("#nextpage-action-label")
 
   }
 
   #initUiListeners()
   {
-    this.ui.loaderBtn.addEventListener("click", () => this.closeLoaderEvent())
-    this.ui.viewerBtn.addEventListener("click", () => this.closeViewerEvent())
-    this.ui.window.addEventListener("click", () => this.closeWindowEvent())
+    this.#ui.loaderBtn.addEventListener("click", () => this.closeLoaderEvent())
+    this.#ui.viewerBtn.addEventListener("click", () => this.closeViewerEvent())
+    this.#ui.window.addEventListener("click", () => this.closeWindowEvent())
 
-    this.#stopEventPropagation(this.ui.viewer)
-    this.#stopEventPropagation(this.ui.loader)
+    this.#stopEventPropagation(this.#ui.viewer)
+    this.#stopEventPropagation(this.#ui.loader)
   }
 
   #initIntercept()
@@ -171,29 +172,29 @@ class NextPageClient extends HTMLElement
   {
     event.preventDefault()
 
-    this.hide(this.ui.loader)
-    this.hide(this.ui.viewer)
-    this.show(this.ui.loaderGif)
+    this.hide(this.#ui.loader)
+    this.hide(this.#ui.viewer)
+    this.show(this.#ui.loaderGif)
 
     let queryNode = this.getQueryNode(url.href)
 
     if(queryNode == "default")
     queryNode = null
 
-    this.ui.loaderLabel.innerText = url.host.replace("www.","")
+    this.#ui.loaderLabel.innerText = url.host.replace("www.","")
     
 
     const nextPage = new NextPage()
 
-    this.show(this.ui.loader)
+    this.show(this.#ui.loader)
     this.#isTerminatedView = false
     const nodeResult = await nextPage.queryWithUrl(event.target.href,queryNode)
     
     if(nodeResult instanceof Error)
     {
       console.log(nodeResult)
-      this.ui.loaderLabel.innerText = "Network Error"
-      this.hide(this.ui.loaderGif)
+      this.#ui.loaderLabel.innerText = "Network Error"
+      this.hide(this.#ui.loaderGif)
       return
     }
     this.setNode(url,nodeResult)
@@ -216,35 +217,35 @@ class NextPageClient extends HTMLElement
     {
       this.reset()
 
-      ViewTypesRegister[node.view](node, this.ui.viewer)
+      ViewTypesRegister[node.view](node, this.#ui.viewer)
   
-      this.ui.viewerSite.innerText = url.host.replace("www.","")
+      this.#ui.viewerSite.innerText = url.host.replace("www.","")
   
       this.#setSecureBadge(url)
       this.#setAction(url,node)
       
-      this.hide(this.ui.loader)
-      this.show(this.ui.viewer)
+      this.hide(this.#ui.loader)
+      this.show(this.#ui.viewer)
       
     })
     
   }
   #setAction(url,node)
   {
-    this.ui.viewerAction.classList.remove("bg-green-600")
-    this.ui.viewerAction.classList.remove("bg-blue-500")
+    this.#ui.viewerAction.classList.remove("bg-green-600")
+    this.#ui.viewerAction.classList.remove("bg-blue-500")
 
     if(!node.action)
     {
-      this.ui.viewerAction.classList.add("bg-blue-500")
-      this.ui.viewerActionLabel.innerText = `Continue To: "${url.host.trim()}"`
-      this.ui.viewerAction.href = url.nodeless
+      this.#ui.viewerAction.classList.add("bg-blue-500")
+      this.#ui.viewerActionLabel.innerText = `Continue To: "${url.host.trim()}"`
+      this.#ui.viewerAction.href = url.nodeless
       return
     }
 
-    this.ui.viewerAction.classList.add("bg-green-600")
-    this.ui.viewerActionLabel.innerText = node.action[0].trim()
-    this.ui.viewerAction.href = node.action[1]
+    this.#ui.viewerAction.classList.add("bg-green-600")
+    this.#ui.viewerActionLabel.innerText = node.action[0].trim()
+    this.#ui.viewerAction.href = node.action[1]
   }
 
   #setSecureBadge(url)
@@ -253,14 +254,14 @@ class NextPageClient extends HTMLElement
 
     if(isSecure)
     {
-      this.show(this.ui.viewerSecureTrue)
-      this.ui.viewerSecureLabel.innerText = "secure"
+      this.show(this.#ui.viewerSecureTrue)
+      this.#ui.viewerSecureLabel.innerText = "secure"
     }
 
     else
     {
-      this.show(this.ui.viewerSecureFalse)
-      this.ui.viewerLabel.innerText = "not secure"
+      this.show(this.#ui.viewerSecureFalse)
+      this.#ui.viewerLabel.innerText = "not secure"
     }
   }
 
@@ -308,13 +309,13 @@ class NextPageClient extends HTMLElement
 
     if(state)
     {
-      this.ui.window.classList.add("md:pointer-events-none")
-      this.ui.window.classList.remove("pointer-events-none")
+      this.#ui.window.classList.add("md:pointer-events-none")
+      this.#ui.window.classList.remove("pointer-events-none")
       return
     }
 
-    this.ui.window.classList.remove("md:pointer-events-none")
-    this.ui.window.classList.add("pointer-events-none")
+    this.#ui.window.classList.remove("md:pointer-events-none")
+    this.#ui.window.classList.add("pointer-events-none")
   }
 
   show(element)
@@ -329,14 +330,14 @@ class NextPageClient extends HTMLElement
 
   reset()
   {
-    this.show(this.ui.loaderGif)
-    this.hide(this.ui.loader)
-    this.hide(this.ui.viewer)
-    this.hide(this.ui.viewerSecureFalse)
-    this.hide(this.ui.viewerSecureTrue)
-    this.hide(this.ui.viewerGallery)
-    this.hide(this.ui.viewerArticle)
-    this.ui.viewerGallery.classList.add("grid-cols-2")
+    this.show(this.#ui.loaderGif)
+    this.hide(this.#ui.loader)
+    this.hide(this.#ui.viewer)
+    this.hide(this.#ui.viewerSecureFalse)
+    this.hide(this.#ui.viewerSecureTrue)
+    this.hide(this.#ui.viewerGallery)
+    this.hide(this.#ui.viewerArticle)
+    this.#ui.viewerGallery.classList.add("grid-cols-2")
 
   } 
 
