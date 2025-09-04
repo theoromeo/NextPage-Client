@@ -36,11 +36,93 @@ class NextPageClient extends HTMLElement
     console.info(`[Instance ID: ${this.#id}]  NextPage Client initialized  successfully.`)
 
   }
-
+  // Public methods
   getID()
   {
     return this.#id
   }
+
+  setNode(url, node)
+  {
+    if(this.#isTerminatedView == true)
+    {
+      this.#isTerminatedView = false
+      return
+    }
+
+    this.#setWindowPointerEvent(true)
+
+    if(!ViewTypesRegister[node.view])
+    throw new ReferenceError("View <${node.view}> not valid")
+
+    requestAnimationFrame(() => 
+    {
+      this.reset()
+
+      ViewTypesRegister[node.view](node, this.#ui.viewer)
+  
+      this.#ui.viewerSite.innerText = url.host.replace("www.","")
+  
+      this.#setSecureBadge(url)
+      this.#setAction(url,node)
+      
+      this.hide(this.#ui.loader)
+      this.show(this.#ui.viewer)
+      
+    })
+    
+  }
+
+  getQueryNode(url)
+  {
+    const nodePosition = url.lastIndexOf(":")
+    const nodeName = url.slice(nodePosition+1,url.length)
+
+    return nodeName.trim().toLowerCase()
+  }
+
+  closeLoaderEvent()
+  {
+    this.reset()
+    this.#isTerminatedView = true;
+  }
+
+  closeViewerEvent()
+  {
+    this.reset()
+  }
+
+  closeWindowEvent()
+  {
+    this.reset()
+    this.#setWindowPointerEvent(false)
+
+  }
+
+  show(element)
+  {
+    element.classList.remove("hidden")
+  }
+
+  hide(element)
+  {
+    element.classList.add("hidden")
+  }
+
+  reset()
+  {
+    this.show(this.#ui.loaderGif)
+    this.hide(this.#ui.loader)
+    this.hide(this.#ui.viewer)
+    this.hide(this.#ui.viewerSecureFalse)
+    this.hide(this.#ui.viewerSecureTrue)
+    this.hide(this.#ui.viewerGallery)
+    this.hide(this.#ui.viewerArticle)
+    this.#ui.viewerGallery.classList.add("grid-cols-2")
+
+  } 
+
+  // Private methods
 
   #generateInstantId() 
   {
@@ -200,36 +282,6 @@ class NextPageClient extends HTMLElement
     this.setNode(url,nodeResult)
   }
 
-  setNode(url, node)
-  {
-    if(this.#isTerminatedView == true)
-    {
-      this.#isTerminatedView = false
-      return
-    }
-
-    this.#setWindowPointerEvent(true)
-
-    if(!ViewTypesRegister[node.view])
-    throw new ReferenceError("View <${node.view}> not valid")
-
-    requestAnimationFrame(() => 
-    {
-      this.reset()
-
-      ViewTypesRegister[node.view](node, this.#ui.viewer)
-  
-      this.#ui.viewerSite.innerText = url.host.replace("www.","")
-  
-      this.#setSecureBadge(url)
-      this.#setAction(url,node)
-      
-      this.hide(this.#ui.loader)
-      this.show(this.#ui.viewer)
-      
-    })
-    
-  }
   #setAction(url,node)
   {
     this.#ui.viewerAction.classList.remove("bg-green-600")
@@ -265,14 +317,6 @@ class NextPageClient extends HTMLElement
     }
   }
 
-  getQueryNode(url)
-  {
-    const nodePosition = url.lastIndexOf(":")
-    const nodeName = url.slice(nodePosition+1,url.length)
-
-    return nodeName.trim().toLowerCase()
-  }
-
   #purgeQuery(link)
   {
     if(!link.includes(":"))
@@ -287,23 +331,6 @@ class NextPageClient extends HTMLElement
     element.addEventListener("click",(event) => event.stopPropagation());
   }
 
-  closeLoaderEvent()
-  {
-    this.reset()
-    this.#isTerminatedView = true;
-  }
-
-  closeViewerEvent()
-  {
-    this.reset()
-  }
-
-  closeWindowEvent()
-  {
-    this.reset()
-    this.#setWindowPointerEvent(false)
-
-  }
   #setWindowPointerEvent(state)
   {
 
@@ -317,31 +344,6 @@ class NextPageClient extends HTMLElement
     this.#ui.window.classList.remove("md:pointer-events-none")
     this.#ui.window.classList.add("pointer-events-none")
   }
-
-  show(element)
-  {
-    element.classList.remove("hidden")
-  }
-
-  hide(element)
-  {
-    element.classList.add("hidden")
-  }
-
-  reset()
-  {
-    this.show(this.#ui.loaderGif)
-    this.hide(this.#ui.loader)
-    this.hide(this.#ui.viewer)
-    this.hide(this.#ui.viewerSecureFalse)
-    this.hide(this.#ui.viewerSecureTrue)
-    this.hide(this.#ui.viewerGallery)
-    this.hide(this.#ui.viewerArticle)
-    this.#ui.viewerGallery.classList.add("grid-cols-2")
-
-  } 
-
-
 }
 customElements.define("next-page",NextPageClient)
 document.body.insertAdjacentElement("afterbegin",document.createElement("next-page"))
