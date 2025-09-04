@@ -186,12 +186,11 @@ class NextPageClient extends HTMLElement
 
   #initUiObjects()
   {
-    this.#ui = 
-    {
-      window:this.DOM.getElementById("nextpage-window"),
-      loader:this.DOM.getElementById("nextpage-loader"),
-      viewer:this.DOM.getElementById("nextpage-viewer")
-    }
+    this.#ui = {}
+    
+    this.#ui.window = this.DOM.getElementById("nextpage-window"),
+    this.#ui.loader = this.DOM.getElementById("nextpage-loader"),
+    this.#ui.viewer = this.DOM.getElementById("nextpage-viewer")
 
     this.#ui.loaderLabel =this.#ui.loader.querySelector("#nextpage-loader-label"),
     this.#ui.loaderBtn =this.#ui.loader.querySelector("#nextpage-loader-btn"),
