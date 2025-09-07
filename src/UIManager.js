@@ -59,10 +59,10 @@ export default class UIManager {
         this.#ui.viewer.root = this.DOM.getElementById("nextpage-viewer")
 
         this.#ui.loader.label =this.#ui.loader.querySelector("#nextpage-loader-label"),
-        this.#ui.loader.closeBtn =this.#ui.loader.querySelector("#nextpage-loader-closeBtn"),
+        this.#ui.loader.closeButton =this.#ui.loader.querySelector("#nextpage-loader-closeButton"),
         this.#ui.loader.gif =this.#ui.loader.querySelector("#nextpage-loader-gif"),
 
-        this.#ui.viewer.closeBtn = this.#ui.viewer.querySelector("#nextpage-viewer-closeBtn"),
+        this.#ui.viewer.closeButton = this.#ui.viewer.querySelector("#nextpage-viewer-closeButton"),
         this.#ui.viewer.secureLabel = this.#ui.viewer.querySelector("#nextpage-secure-label"),
         this.#ui.viewer.secureBadgeFalse = this.#ui.viewer.querySelector("#nextpage-secure-badge-false"),
         this.#ui.viewer.secureBadgeTrue = this.#ui.viewer.querySelector("#nextpage-secure-badge-true"),
