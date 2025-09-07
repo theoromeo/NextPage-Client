@@ -1,0 +1,399 @@
+import Interpreter from "./Interpreter.js";
+import ViewTypesRegister from "./ViewTypesRegister.js";
+
+/**
+ * UIManager is responsible for locating UI elements inside the shadow
+ * DOM, showing/hiding/resetting view sections, and intercepting hyperlink
+ * clicks that include NextPage query nodes.
+ */
+export default class UIManager {
+    /**
+     * @type {boolean}
+     * @private
+     */
+    #isViewActive = false
+
+    /**
+     * UI element references collected from the shadow DOM.
+     * @type {Object<string, HTMLElement>}
+     * @private
+     */
+    #ui = {}
+
+    /**
+     * Lightweight interpreter used to parse query nodes from URLs.
+     * @type {Interpreter}
+     * @private
+     */
+    #interpreter = new Interpreter()
+
+    /**
+     * The shadow root or DOM root where UI elements live.
+     * @type {ShadowRoot|HTMLElement|null}
+     */
+    DOM = null
+
+    constructor(DOM)
+    {
+        this.DOM = DOM;
+        this.#initUIObjects()
+        this.#initUIListeners()
+        this.#initHyperlinkInterceptor()
+        this.#initChangeObserver()
+
+    }
+
+    /**
+     * Locate and cache relevant UI elements from the provided `DOM` root.
+     * @private
+     * @returns {void}
+     */
+    #initUIObjects() {
+        this.#ui.window = this.DOM.getElementById("nextpage-window"),
+        this.#ui.loader = this.DOM.getElementById("nextpage-loader"),
+        this.#ui.viewer = this.DOM.getElementById("nextpage-viewer")
+
+        this.#ui.loaderLabel =this.#ui.loader.querySelector("#nextpage-loader-label"),
+        this.#ui.loaderBtn =this.#ui.loader.querySelector("#nextpage-loader-btn"),
+        this.#ui.loaderGif =this.#ui.loader.querySelector("#nextpage-loader-gif"),
+
+        this.#ui.viewerBtn = this.#ui.viewer.querySelector("#nextpage-viewer-btn"),
+        this.#ui.viewerLabel = this.#ui.viewer.querySelector("#nextpage-secure-label"),
+        this.#ui.viewerGallery = this.#ui.viewer.querySelector("#nextpage-gallery"),
+        this.#ui.viewerArticle = this.#ui.viewer.querySelector("#nextpage-article"),
+        
+        this.#ui.viewerSecureLabel = this.#ui.viewer.querySelector("#nextpage-secure-label"),
+        this.#ui.viewerSecureFalse = this.#ui.viewer.querySelector("#nextpage-secure-false"),
+        this.#ui.viewerSecureTrue = this.#ui.viewer.querySelector("#nextpage-secure-true"),
+        this.#ui.viewerSite = this.#ui.viewer.querySelector("#nextpage-site"),
+
+        this.#ui.viewerAction = this.#ui.viewer.querySelector("#nextpage-action"),
+        this.#ui.viewerActionLabel = this.#ui.viewer.querySelector("#nextpage-action-label")
+
+    }
+
+    /**
+     * Attach UI listeners for loader/viewer buttons and window clicks.
+     * @private
+     * @returns {void}
+     */
+    #initUIListeners() {
+        this.#ui.loaderBtn.addEventListener("click", () => this.#closeLoaderEvent())
+        this.#ui.viewerBtn.addEventListener("click", () => this.#closeViewerEvent())
+        this.#ui.window.addEventListener("click", () => this.#closeWindowEvent())
+
+        this.#stopEventPropagation(this.#ui.viewer)
+        this.#stopEventPropagation(this.#ui.loader)
+    }
+
+    /**
+     * Scan the document for elements with an `href` and attach hyperlink
+     * interceptor listeners to those that include a query node.
+     * @private
+     * @returns {void}
+     */
+    #initHyperlinkInterceptor() {
+        const linkElements = document.querySelectorAll(`[href]`) 
+        
+        for(const linkElement of linkElements)
+        this.#addHyperlinkInterceptorListener(linkElement)
+    }
+
+    /**
+     * Inspect a single link element and attach an interceptor listener if it
+     * contains a query node.
+     * @private
+     * @param {HTMLElement} linkElement - The <a> or element with an href.
+     * @returns {void}
+     */
+    #addHyperlinkInterceptorListener(linkElement) {
+        if(!linkElement || !linkElement.href || linkElement.href.trim() == "")
+        return
+
+        if(!linkElement.href.includes(":"))
+        return
+
+        // Creating a new property to store the original href
+        // "nhref" stands for "node href"
+        // to preserve the original URL with query node
+        linkElement.nhref = linkElement.href
+        linkElement.href = this.#purgeHyperlinkQueryString(linkElement.href)
+
+        if(this.#interpreter.getQueryNodeString("1"+linkElement.nhref) == "")
+        return
+
+        // Modifying the cursor to indicate node availability
+        linkElement.setAttribute("style", linkElement.getAttribute("style")+"; cursor: alias;")
+        // Adding event listener to intercept clicks
+        // and associated with the original URL (originalURL) with query node
+        linkElement.addEventListener("click", (event) => this.#hyperlinkInterceptorEvent(event))
+    }
+
+    /**
+     * Observe the document for newly added nodes so we can attach
+     * hyperlink interceptors to dynamically inserted links.
+     * @private
+     * @returns {void}
+     */
+    #initChangeObserver() {
+        const observer = new MutationObserver ((mutations) => 
+        {
+        for(const mutation of mutations)
+        {
+            if(mutation.type != "childList")  
+            return
+            
+            for(const node of mutation.addedNodes)
+            {
+            if(!(node instanceof HTMLElement)) 
+            continue;
+
+            if (node.matches("[href]"))
+            this.#addHyperlinkInterceptorListener(node)
+
+            const links = node.querySelectorAll("[href]")
+            links.forEach((link) => this.#addHyperlinkInterceptorListener(link))
+            }
+        }
+        })
+        observer.observe(document.body,{childList:true,subtree:true})
+
+    } 
+
+    /**
+     * Remove the query-node portion of a URL string (everything after the
+     * last colon). Example: `https://x/a:gallery` -> `https://x/a`.
+     * @private
+     * @param {string} link - URL string to purge.
+     * @returns {string} The purged URL (no query node) or original if none.
+     */
+    #purgeHyperlinkQueryString(link) {
+        if(!link.includes(":"))
+        return link
+
+        const nodePosition = link.lastIndexOf(":")
+        return link.slice(0,nodePosition)
+    }
+
+    /**
+     * Intercepts hyperlink clicks for links that were previously modified to
+     * preserve their node query. Prevents the default navigation and shows
+     * the loader while querying NextPage for the node data.
+     * @private
+     * @param {MouseEvent} event - The click event fired on the link.
+     * @returns {Promise<void>} Resolves when the flow completes (node set or error).
+     */
+    async #hyperlinkInterceptorEvent(event) {
+        event.preventDefault()
+
+        const url = new URL(event.target.href)
+
+        this.#hide(this.#ui.loader)
+        this.#hide(this.#ui.viewer)
+        this.#show(this.#ui.loaderGif)
+
+        let queryNodeString = this.#interpreter.getQueryNodeString(url.href)
+
+        if(queryNodeString == "default" || queryNodeString == "")
+        queryNodeString = null
+
+        this.#ui.loaderLabel.innerText = url.host.replace("www.","")
+        
+        this.#show(this.#ui.loader)
+        this.#isViewActive = true
+        
+        const nodeResult = await this.#interpreter.getNode(event.target.href,queryNodeString)
+        
+        if(nodeResult instanceof Error)
+        {
+            console.log(nodeResult)
+            this.#ui.loaderLabel.innerText = "Network Error"
+            this.#hide(this.#ui.loaderGif)
+            return
+        }
+
+        this.setNode(url,nodeResult)
+    }
+
+    /**
+     * Prevent clicks from bubbling from the provided element to the window.
+     * @private
+     * @param {HTMLElement} element
+     * @returns {void}
+     */
+    #stopEventPropagation(element) {
+        element.addEventListener("click",(event) => event.stopPropagation());
+    }
+
+    /**
+     * Close the loader and mark the view as inactive.
+     * @private
+     * @returns {void}
+     */
+    #closeLoaderEvent() {
+        this.reset()
+        this.#isViewActive = false;
+    }
+
+    /**
+     * Close the viewer and reset the UI.
+     * @private
+     * @returns {void}
+     */
+    #closeViewerEvent() {
+        this.reset()
+    }
+
+    /**
+     * Close the entire next-page window and disable pointer events.
+     * @private
+     * @returns {void}
+     */
+    #closeWindowEvent() {
+        this.reset()
+        this.#setWindowPointerEvent(false)
+
+    }
+
+    /**
+     * Show a given element (remove hidden class).
+     * @private
+     * @param {HTMLElement} element
+     * @returns {void}
+     */
+    #show(element) {
+        element.classList.remove("hidden")
+    }
+
+    /**
+     * Hide a given element (add hidden class).
+     * @private
+     * @param {HTMLElement} element
+     * @returns {void}
+     */
+    #hide(element) {
+        element.classList.add("hidden")
+    }
+
+    /**
+     * Enable or disable window pointer events by toggling utility classes.
+     * @private
+     * @param {boolean} state - true to enable pointer events, false to disable
+     * @returns {void}
+     */
+    #setWindowPointerEvent(state) {
+
+        if(state)
+        {
+        this.#ui.window.classList.add("md:pointer-events-none")
+        this.#ui.window.classList.remove("pointer-events-none")
+        return
+        }
+
+        this.#ui.window.classList.remove("md:pointer-events-none")
+        this.#ui.window.classList.add("pointer-events-none")
+    }
+    
+    /**
+     * Configure the viewer action button based on the node.
+     * @private
+     * @param {URL} url - The original URL object for the node.
+     * @param {Object} node - The node object returned by NextPage.
+     * @returns {void}
+     */
+    #setAction(url,node) {
+        console.log(url.href)
+        this.#ui.viewerAction.classList.remove("bg-green-600")
+        this.#ui.viewerAction.classList.remove("bg-blue-500")
+
+        if(!node.action)
+        {
+        this.#ui.viewerAction.classList.add("bg-blue-500")
+        this.#ui.viewerActionLabel.innerText = `Continue To: "${url.host.trim()}"`
+        this.#ui.viewerAction.href = url.href
+        return
+        }
+
+        this.#ui.viewerAction.classList.add("bg-green-600")
+        this.#ui.viewerActionLabel.innerText = node.action[0].trim()
+        this.#ui.viewerAction.href = node.action[1]
+    }
+
+    /**
+     * Update secure/not-secure badges in the UI.
+     * @private
+     * @param {URL} url
+     * @returns {void}
+     */
+    #setSecureBadge(url) {
+        const isSecure = url.protocol === "https:"
+
+        if(isSecure)
+        {
+        this.#show(this.#ui.viewerSecureTrue)
+        this.#ui.viewerSecureLabel.innerText = "secure"
+        }
+
+        else
+        {
+        this.#show(this.#ui.viewerSecureFalse)
+        this.#ui.viewerLabel.innerText = "not secure"
+        }
+    }
+
+    /**
+     * Populate the viewer with the provided node data and update UI state.
+     * @param {URL} url - The source URL for the node.
+     * @param {Object} node - The node object returned from NextPage.
+     * @returns {void}
+     */
+    setNode(url, node) {
+        console.log(url)
+        if(this.#isViewActive == false)
+        {
+        this.#isViewActive = true
+        return
+        }
+
+        this.#setWindowPointerEvent(true)
+
+        if(!ViewTypesRegister[node.view])
+        throw new ReferenceError("View <${node.view}> not valid")
+
+        requestAnimationFrame(() => 
+        {
+            this.reset()
+
+            ViewTypesRegister[node.view](node, this.#ui.viewer)
+        
+            this.#ui.viewerSite.innerText = url.host.replace("www.","")
+        
+            this.#setSecureBadge(url)
+            this.#setAction(url,node)
+            
+            this.#hide(this.#ui.loader)
+            this.#show(this.#ui.viewer)
+        
+        })
+        
+    }
+
+    /**
+     * Reset the viewer to its default hidden/loader state.
+     * @returns {void}
+     */
+    reset() {
+        this.#show(this.#ui.loaderGif)
+        this.#hide(this.#ui.loader)
+        this.#hide(this.#ui.viewer)
+        this.#hide(this.#ui.viewerSecureFalse)
+        this.#hide(this.#ui.viewerSecureTrue)
+        this.#hide(this.#ui.viewerGallery)
+        this.#hide(this.#ui.viewerArticle)
+        this.#ui.viewerGallery.classList.add("grid-cols-2")
+
+    } 
+
+    
+    
+}
