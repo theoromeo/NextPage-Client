@@ -94,7 +94,7 @@ export default class UIManager {
      * @returns {void}
      */
     #initHyperlinkInterceptor() {
-        const linkElements = document.querySelectorAll(`[href]`) 
+        const linkElements = document.querySelectorAll(`body [href]`) 
         
         for(const linkElement of linkElements)
         this.#addHyperlinkInterceptorListener(linkElement)
