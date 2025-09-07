@@ -8,6 +8,7 @@ import ViewTypesRegister from "./ViewTypesRegister.js";
  */
 export default class UIManager {
     /**
+     * Indicates whether the loader/viewer is currently active.
      * @type {boolean}
      * @private
      */
@@ -110,7 +111,9 @@ export default class UIManager {
         if(!linkElement || !linkElement.href || linkElement.href.trim() == "")
         return
 
-        if(!linkElement.href.includes(":"))
+        // Only works for links with a colon in the pathname
+        let url = new URL(linkElement.href)
+        if(!url.pathname.includes(":"))
         return
 
         // Creating a new property to store the original href
@@ -119,7 +122,7 @@ export default class UIManager {
         linkElement.nhref = linkElement.href
         linkElement.href = this.#purgeHyperlinkQueryString(linkElement.href)
 
-        if(this.#interpreter.getQueryNodeString("1"+linkElement.nhref) == "")
+        if(this.#interpreter.getQueryNodeString(linkElement.nhref) == "")
         return
 
         // Modifying the cursor to indicate node availability
