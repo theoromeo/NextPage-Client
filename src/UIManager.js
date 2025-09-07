@@ -57,6 +57,7 @@ export default class UIManager {
         this.#ui.window.root = this.DOM.getElementById("nextpage-window"),
         this.#ui.loader.root = this.DOM.getElementById("nextpage-loader"),
         this.#ui.viewer.root = this.DOM.getElementById("nextpage-viewer")
+        this.#ui.viewer.root = this.DOM.getElementById("nextpage-container")
 
         this.#ui.loader.label =this.#ui.loader.querySelector("#nextpage-loader-label"),
         this.#ui.loader.closeButton =this.#ui.loader.querySelector("#nextpage-loader-closeButton"),
