@@ -305,7 +305,6 @@ export default class UIManager {
      * @returns {void}
      */
     #setAction(url,node) {
-        console.log(url.href)
         this.#ui.viewerAction.classList.remove("bg-green-600")
         this.#ui.viewerAction.classList.remove("bg-blue-500")
 
@@ -351,7 +350,6 @@ export default class UIManager {
      * @returns {void}
      */
     setNode(url, node) {
-        console.log(url)
         if(this.#isViewActive == false)
         {
         this.#isViewActive = true
