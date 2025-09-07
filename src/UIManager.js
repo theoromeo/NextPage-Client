@@ -19,7 +19,11 @@ export default class UIManager {
      * @type {Object<string, HTMLElement>}
      * @private
      */
-    #ui = {}
+    #ui = {
+        window: {},
+        loader: {},
+        viewer: {},
+    }
 
     /**
      * Lightweight interpreter used to parse query nodes from URLs.
@@ -50,26 +54,22 @@ export default class UIManager {
      * @returns {void}
      */
     #initUIObjects() {
-        this.#ui.window = this.DOM.getElementById("nextpage-window"),
-        this.#ui.loader = this.DOM.getElementById("nextpage-loader"),
-        this.#ui.viewer = this.DOM.getElementById("nextpage-viewer")
+        this.#ui.window.root = this.DOM.getElementById("nextpage-window"),
+        this.#ui.loader.root = this.DOM.getElementById("nextpage-loader"),
+        this.#ui.viewer.root = this.DOM.getElementById("nextpage-viewer")
 
-        this.#ui.loaderLabel =this.#ui.loader.querySelector("#nextpage-loader-label"),
-        this.#ui.loaderBtn =this.#ui.loader.querySelector("#nextpage-loader-btn"),
-        this.#ui.loaderGif =this.#ui.loader.querySelector("#nextpage-loader-gif"),
+        this.#ui.loader.label =this.#ui.loader.querySelector("#nextpage-loader-label"),
+        this.#ui.loader.closeBtn =this.#ui.loader.querySelector("#nextpage-loader-closeBtn"),
+        this.#ui.loader.gif =this.#ui.loader.querySelector("#nextpage-loader-gif"),
 
-        this.#ui.viewerBtn = this.#ui.viewer.querySelector("#nextpage-viewer-btn"),
-        this.#ui.viewerLabel = this.#ui.viewer.querySelector("#nextpage-secure-label"),
-        this.#ui.viewerGallery = this.#ui.viewer.querySelector("#nextpage-gallery"),
-        this.#ui.viewerArticle = this.#ui.viewer.querySelector("#nextpage-article"),
-        
-        this.#ui.viewerSecureLabel = this.#ui.viewer.querySelector("#nextpage-secure-label"),
-        this.#ui.viewerSecureFalse = this.#ui.viewer.querySelector("#nextpage-secure-false"),
-        this.#ui.viewerSecureTrue = this.#ui.viewer.querySelector("#nextpage-secure-true"),
-        this.#ui.viewerSite = this.#ui.viewer.querySelector("#nextpage-site"),
+        this.#ui.viewer.closeBtn = this.#ui.viewer.querySelector("#nextpage-viewer-closeBtn"),
+        this.#ui.viewer.secureLabel = this.#ui.viewer.querySelector("#nextpage-secure-label"),
+        this.#ui.viewer.secureBadgeFalse = this.#ui.viewer.querySelector("#nextpage-secure-badge-false"),
+        this.#ui.viewer.secureBadgeTrue = this.#ui.viewer.querySelector("#nextpage-secure-badge-true"),
+        this.#ui.viewer.site = this.#ui.viewer.querySelector("#nextpage-site"),
 
-        this.#ui.viewerAction = this.#ui.viewer.querySelector("#nextpage-action"),
-        this.#ui.viewerActionLabel = this.#ui.viewer.querySelector("#nextpage-action-label")
+        this.#ui.viewer.action = this.#ui.viewer.querySelector("#nextpage-action"),
+        this.#ui.viewer.actionLabel = this.#ui.viewer.querySelector("#nextpage-action-label")
 
     }
 
