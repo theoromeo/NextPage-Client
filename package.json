@@ -13,7 +13,8 @@
     "tw-examples": "tailwindcss -c ./examples/tailwind.config.js -i ./examples/main.scss -o ./examples/main.css --watch",
     "dev": "vite", 
     "build": "vite build ",
-    "build-watch": "vite build --watch"
+    "build-watch": "vite build --watch",
+    "dev-mode":"npm run dev & npm run build-watch & npm run tw"
   },
   "devDependencies": 
   {
