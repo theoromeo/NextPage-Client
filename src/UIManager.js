@@ -202,7 +202,6 @@ export default class UIManager {
         if(queryNodeString == "default" || queryNodeString == "")
         queryNodeString = null
 
-        console.log("1")
         this.#ui.loader.label.innerText = url.host.replace("www.","")
         
         this.#show(this.#ui.loader.root)
@@ -213,8 +212,6 @@ export default class UIManager {
         if(nodeResult instanceof Error)
         {
             console.log(nodeResult)
-        console.log("2")
-
             this.#ui.loader.label.innerText = "Network Error"
             this.#hide(this.#ui.loader.gif)
             return
@@ -316,7 +313,6 @@ export default class UIManager {
         if(!node.action)
         {
         this.#ui.viewer.action.classList.add("bg-blue-500")
-        console.log("3")
 
         this.#ui.viewer.actionLabel.innerText = `Continue To: "${url.host.trim()}"`
         this.#ui.viewer.action.href = url.href
@@ -324,7 +320,6 @@ export default class UIManager {
         }
 
         this.#ui.viewer.action.classList.add("bg-green-600")
-        console.log("4")
 
         this.#ui.viewer.actionLabel.innerText = node.action[0].trim()
         this.#ui.viewer.action.href = node.action[1]
@@ -342,8 +337,6 @@ export default class UIManager {
         if(isSecure)
         {
         this.#show(this.#ui.viewer.secureBadgeTrue)
-        console.log("5")
-
         this.#ui.viewer.secureLabel.innerText = "Secure"
         }
 
@@ -377,8 +370,6 @@ export default class UIManager {
             this.reset()
 
             ViewTypesRegister[node.view](node, this.#ui.viewer)
-        console.log("7")
-        
             this.#ui.viewer.site.innerText = url.host.replace("www.","")
         
             this.#setSecureBadge(url)
