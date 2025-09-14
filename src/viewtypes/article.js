@@ -6,6 +6,6 @@ export function article(node, viewer)
     if(!node.article)
     return null 
 
-    viewer.querySelector("#nextpage-article").innerHTML = node.article
-    viewer.querySelector("#nextpage-article").classList.remove("hidden")
+    viewer.content.innerHTML += `
+    <p id="nextpage-article" class="opacity-80  md:text-sm">${node.article}</p>`
 }

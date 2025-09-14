@@ -616,22 +616,9 @@ video {
   gap: 0.5rem;
 }
 
-.border-b {
-  border-bottom-width: 1px;
-}
-
-.p-4 {
-  padding: 1rem;
-}
-
 .py-6 {
   padding-top: 1.5rem;
   padding-bottom: 1.5rem;
-}
-
-.text-lg {
-  font-size: 1.125rem;
-  line-height: 1.75rem;
 }
 
 .text-xl {

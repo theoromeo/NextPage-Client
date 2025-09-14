@@ -13,10 +13,10 @@ export function gallery(node, viewer)
         html += `<img class="aspect-video bg-gray-100 bg-opacity-5 object-cover min-w-[100%] rounded-lg" src="${img}" alt=""> `
     })
 
-    viewer.querySelector("#nextpage-gallery").innerHTML = html
-    viewer.querySelector("#nextpage-gallery").classList.remove("hidden")
+    viewer.content.innerHTML += `
+    <div id="nextpage-gallery" class="grid gap-2 grid-cols-2">${html}</div>`
 
     if(node.img.length == 1)
-    viewer.querySelector("#nextpage-gallery").classList.remove("grid-cols-2")
+    viewer.root.querySelector("#nextpage-gallery").classList.remove("grid-cols-2")
 
 }

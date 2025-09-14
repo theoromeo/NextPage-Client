@@ -57,20 +57,21 @@ export default class UIManager {
         this.#ui.window.root = this.DOM.getElementById("nextpage-window"),
         this.#ui.loader.root = this.DOM.getElementById("nextpage-loader"),
         this.#ui.viewer.root = this.DOM.getElementById("nextpage-viewer")
-        this.#ui.viewer.container = this.DOM.getElementById("nextpage-container")
+        
+        this.#ui.loader.label =this.#ui.loader.root.querySelector("#nextpage-loader-label"),
+        this.#ui.loader.closeButton =this.#ui.loader.root.querySelector("#nextpage-loader-closeButton"),
+        this.#ui.loader.gif =this.#ui.loader.root.querySelector("#nextpage-loader-gif"),
+        
+        this.#ui.viewer.content = this.DOM.getElementById("nextpage-content")
+        this.#ui.viewer.closeButton = this.#ui.viewer.root.querySelector("#nextpage-viewer-closeButton"),
+        this.#ui.viewer.secureLabel = this.#ui.viewer.root.querySelector("#nextpage-secure-label"),
+        this.#ui.viewer.secureBadgeFalse = this.#ui.viewer.root.querySelector("#nextpage-secure-badge-false"),
+        this.#ui.viewer.secureBadgeTrue = this.#ui.viewer.root.querySelector("#nextpage-secure-badge-true"),
+        this.#ui.viewer.site = this.#ui.viewer.root.querySelector("#nextpage-site"),
 
-        this.#ui.loader.label =this.#ui.loader.querySelector("#nextpage-loader-label"),
-        this.#ui.loader.closeButton =this.#ui.loader.querySelector("#nextpage-loader-closeButton"),
-        this.#ui.loader.gif =this.#ui.loader.querySelector("#nextpage-loader-gif"),
+        this.#ui.viewer.action = this.#ui.viewer.root.querySelector("#nextpage-action"),
+        this.#ui.viewer.actionLabel = this.#ui.viewer.root.querySelector("#nextpage-action-label")
 
-        this.#ui.viewer.closeButton = this.#ui.viewer.querySelector("#nextpage-viewer-closeButton"),
-        this.#ui.viewer.secureLabel = this.#ui.viewer.querySelector("#nextpage-secure-label"),
-        this.#ui.viewer.secureBadgeFalse = this.#ui.viewer.querySelector("#nextpage-secure-badge-false"),
-        this.#ui.viewer.secureBadgeTrue = this.#ui.viewer.querySelector("#nextpage-secure-badge-true"),
-        this.#ui.viewer.site = this.#ui.viewer.querySelector("#nextpage-site"),
-
-        this.#ui.viewer.action = this.#ui.viewer.querySelector("#nextpage-action"),
-        this.#ui.viewer.actionLabel = this.#ui.viewer.querySelector("#nextpage-action-label")
 
     }
 
@@ -80,12 +81,12 @@ export default class UIManager {
      * @returns {void}
      */
     #initUIListeners() {
-        this.#ui.loaderBtn.addEventListener("click", () => this.#closeLoaderEvent())
-        this.#ui.viewerBtn.addEventListener("click", () => this.#closeViewerEvent())
-        this.#ui.window.addEventListener("click", () => this.#closeWindowEvent())
+        this.#ui.loader.closeButton.addEventListener("click", () => this.#closeLoaderEvent())
+        this.#ui.viewer.closeButton.addEventListener("click", () => this.#closeViewerEvent())
+        this.#ui.window.root.addEventListener("click", () => this.#closeWindowEvent())
 
-        this.#stopEventPropagation(this.#ui.viewer)
-        this.#stopEventPropagation(this.#ui.loader)
+        this.#stopEventPropagation(this.#ui.viewer.root)
+        this.#stopEventPropagation(this.#ui.loader.root)
     }
 
     /**
@@ -192,18 +193,19 @@ export default class UIManager {
 
         const url = new URL(event.target.href)
 
-        this.#hide(this.#ui.loader)
-        this.#hide(this.#ui.viewer)
-        this.#show(this.#ui.loaderGif)
+        this.#hide(this.#ui.loader.root)
+        this.#hide(this.#ui.viewer.root)
+        this.#show(this.#ui.loader.gif)
 
         let queryNodeString = this.#interpreter.getQueryNodeString(url.href)
 
         if(queryNodeString == "default" || queryNodeString == "")
         queryNodeString = null
 
-        this.#ui.loaderLabel.innerText = url.host.replace("www.","")
+        console.log("1")
+        this.#ui.loader.label.innerText = url.host.replace("www.","")
         
-        this.#show(this.#ui.loader)
+        this.#show(this.#ui.loader.root)
         this.#isViewActive = true
         
         const nodeResult = await this.#interpreter.getNode(event.target.href,queryNodeString)
@@ -211,8 +213,10 @@ export default class UIManager {
         if(nodeResult instanceof Error)
         {
             console.log(nodeResult)
-            this.#ui.loaderLabel.innerText = "Network Error"
-            this.#hide(this.#ui.loaderGif)
+        console.log("2")
+
+            this.#ui.loader.label.innerText = "Network Error"
+            this.#hide(this.#ui.loader.gif)
             return
         }
 
@@ -289,13 +293,13 @@ export default class UIManager {
 
         if(state)
         {
-        this.#ui.window.classList.add("md:pointer-events-none")
-        this.#ui.window.classList.remove("pointer-events-none")
+        this.#ui.window.root.classList.add("md:pointer-events-none")
+        this.#ui.window.root.classList.remove("pointer-events-none")
         return
         }
 
-        this.#ui.window.classList.remove("md:pointer-events-none")
-        this.#ui.window.classList.add("pointer-events-none")
+        this.#ui.window.root.classList.remove("md:pointer-events-none")
+        this.#ui.window.root.classList.add("pointer-events-none")
     }
     
     /**
@@ -306,20 +310,24 @@ export default class UIManager {
      * @returns {void}
      */
     #setAction(url,node) {
-        this.#ui.viewerAction.classList.remove("bg-green-600")
-        this.#ui.viewerAction.classList.remove("bg-blue-500")
+        this.#ui.viewer.action.classList.remove("bg-green-600")
+        this.#ui.viewer.action.classList.remove("bg-blue-500")
 
         if(!node.action)
         {
-        this.#ui.viewerAction.classList.add("bg-blue-500")
-        this.#ui.viewerActionLabel.innerText = `Continue To: "${url.host.trim()}"`
-        this.#ui.viewerAction.href = url.href
+        this.#ui.viewer.action.classList.add("bg-blue-500")
+        console.log("3")
+
+        this.#ui.viewer.actionLabel.innerText = `Continue To: "${url.host.trim()}"`
+        this.#ui.viewer.action.href = url.href
         return
         }
 
-        this.#ui.viewerAction.classList.add("bg-green-600")
-        this.#ui.viewerActionLabel.innerText = node.action[0].trim()
-        this.#ui.viewerAction.href = node.action[1]
+        this.#ui.viewer.action.classList.add("bg-green-600")
+        console.log("4")
+
+        this.#ui.viewer.actionLabel.innerText = node.action[0].trim()
+        this.#ui.viewer.action.href = node.action[1]
     }
 
     /**
@@ -333,14 +341,16 @@ export default class UIManager {
 
         if(isSecure)
         {
-        this.#show(this.#ui.viewerSecureTrue)
-        this.#ui.viewerSecureLabel.innerText = "secure"
+        this.#show(this.#ui.viewer.secureBadgeTrue)
+        console.log("5")
+
+        this.#ui.viewer.secureLabel.innerText = "Secure"
         }
 
         else
         {
-        this.#show(this.#ui.viewerSecureFalse)
-        this.#ui.viewerLabel.innerText = "not secure"
+        this.#show(this.#ui.viewer.secureBadgeFalse)
+        this.#ui.viewer.secureLabel.innerText = "Not Secure"
         }
     }
 
@@ -367,14 +377,15 @@ export default class UIManager {
             this.reset()
 
             ViewTypesRegister[node.view](node, this.#ui.viewer)
+        console.log("7")
         
-            this.#ui.viewerSite.innerText = url.host.replace("www.","")
+            this.#ui.viewer.site.innerText = url.host.replace("www.","")
         
             this.#setSecureBadge(url)
             this.#setAction(url,node)
             
-            this.#hide(this.#ui.loader)
-            this.#show(this.#ui.viewer)
+            this.#hide(this.#ui.loader.root)
+            this.#show(this.#ui.viewer.root)
         
         })
         
@@ -385,15 +396,12 @@ export default class UIManager {
      * @returns {void}
      */
     reset() {
-        this.#show(this.#ui.loaderGif)
-        this.#hide(this.#ui.loader)
-        this.#hide(this.#ui.viewer)
-        this.#hide(this.#ui.viewerSecureFalse)
-        this.#hide(this.#ui.viewerSecureTrue)
-        this.#hide(this.#ui.viewerGallery)
-        this.#hide(this.#ui.viewerArticle)
-        this.#ui.viewerGallery.classList.add("grid-cols-2")
-
+        this.#show(this.#ui.loader.gif)
+        this.#hide(this.#ui.loader.root)
+        this.#hide(this.#ui.viewer.root)
+        this.#hide(this.#ui.viewer.secureBadgeFalse)
+        this.#hide(this.#ui.viewer.secureBadgeTrue)
+        this.#ui.viewer.content.innerHTML = ""
     } 
 
     

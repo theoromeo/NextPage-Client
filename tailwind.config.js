@@ -1,5 +1,5 @@
 module.exports = {
-  content: ["./src/*.{html,js}","./src/template/*.html"],
+  content: ["./src/*.{html,js}","./src/template/*.html","./src/viewtypes/*.js"],
   safelist: [
     "h-[100vh]",
     "h-[100dvh]",

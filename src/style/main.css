@@ -603,6 +603,10 @@ video {
   margin-right: 1.5rem;
 }
 
+.ml-1 {
+  margin-left: 0.25rem;
+}
+
 .flex {
   display: flex;
 }
@@ -665,6 +669,10 @@ video {
 
 .min-w-12 {
   min-width: 3rem;
+}
+
+.min-w-\[100\%\] {
+  min-width: 100%;
 }
 
 .max-w-12 {
@@ -801,6 +809,14 @@ video {
   background-color: rgb(255 255 255 / var(--tw-bg-opacity, 1));
 }
 
+.bg-white\/10 {
+  background-color: rgb(255 255 255 / 0.1);
+}
+
+.bg-white\/5 {
+  background-color: rgb(255 255 255 / 0.05);
+}
+
 .bg-opacity-10 {
   --tw-bg-opacity: 0.1;
 }
@@ -903,6 +919,10 @@ video {
 
 .opacity-80 {
   opacity: 0.8;
+}
+
+.opacity-15 {
+  opacity: 0.15;
 }
 
 .shadow {
