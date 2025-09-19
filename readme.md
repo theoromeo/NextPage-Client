@@ -18,8 +18,8 @@ This is just a quick start guide. For the full documentation, visit the [NextPag
 * [How NextPage Works (High-Level Overview)](#%EF%B8%8F--how-nextpage-works-high-level-overview)
     - [Defining NextPage-Enabled Webpages](#-defining-nextpage-enabled-webpages)
     - [Enabling The NextPage Client](#-enabling-the-nextpage-client)
-    - [Querying The Webpages](#-querying-the-webpage)
-* [Installation](Readme.md#%EF%B8%8F-installation)
+    - [Querying The Webpage](#-querying-the-webpage)
+* [Installation](#-installation)
     - [CDN](#option-1-cdn)
     - [Self Hosted](#option-2-self-hosted)
 * [Live Examples (Demo)](#-live-examples-demo)
@@ -27,7 +27,7 @@ This is just a quick start guide. For the full documentation, visit the [NextPag
     - [Nodes](#-nodes)
     - [Fields](#-fields)
     - [Views](#-views)
-    - [Fallbacks](#-fallbacks)
+    - [Fallbacks](#️-fallbacks)
 * [Building And Running Examples Locally](#-building-and-running-examples-locally)
 * [The Parser And Contributing](#-the-parser-and-contributing)
 * [Documentation And Support](#-documentation-and-support)
@@ -62,7 +62,7 @@ Once a node is defined on a page, the page is considered `NextPage-Enabled`.
 ### 📇 Enabling The NextPage Client
 Before you can query a NextPage-enabled webpage, you will first need to install the `NextPage-Client`. This provides the user interface, parsing, and querying of the webpage’s content when a user clicks on a queried URL.
 
-### 🗣️ Querying The Webpage
+### 🧐 Querying The Webpage
 To query a specific node from another page, simply append a colon `(:)` followed by the node’s name to the end of the target page’s URL. 
 
 ```html
@@ -71,7 +71,7 @@ To query a specific node from another page, simply append a colon `(:)` followed
 
 > Note: The node query string should always appear at the **very end** of the URL, even after any standard HTTP GET parameters.
 
-## ⚙️ Installation
+## 🐒 Installation
 Installing the NextPage-Client is simple. You can either:
 1.	**Use the CDN :** Copy and paste the link below into the `<head>` of your HTML pages.
 2.	**Download the minified file :** Host it yourself and reference it locally.
@@ -109,7 +109,7 @@ A node is the core unit of shareable content, like an `“object”` on the page
 </div>
 ```
 
-Read about [🗃️ Nodes in docs]()
+Read about [🗃️ Nodes in docs](https://github.com/theoromeo/NextPage-Parser/blob/master/Documentation/Nodes.md)
 
 ### 🔣 Fields
 Fields are individual attributes attached to a node like, `np-title` and `np-desc`. They represent the content a node exposes.
@@ -122,7 +122,7 @@ np-desc="Short Description of content">
 </div>
 ```
 
-Read about  [🗃️ Fields in docs]()
+Read about  [🗃️ Fields in docs](https://github.com/theoromeo/NextPage-Parser/blob/master/Documentation/Fields.md)
 
 ### 👀 Views
 Views define the interface a node is displayed as to a user. Each view has a set of required fields that must be defined.
@@ -140,7 +140,7 @@ np-desc="...">
 </div>
 ```
 
-Read about  [🗃️ Views in docs]()
+Read about  [🗃️ Views in docs](https://github.com/theoromeo/NextPage-Parser/blob/master/Documentation/Views.md)
 
 
 ### ⛑️ Fallbacks
@@ -158,7 +158,7 @@ It’s good practice to include a fallback node named `"primary"`, which acts as
 </head>
 ```
 
-Read about  [🗃️ Fallbacks in docs]()
+Read about  [🗃️ Fallbacks in docs](https://github.com/theoromeo/NextPage-Parser/blob/master/Documentation/Fallbacks.md)
 
 
 ## 🧩 Building And Running Examples Locally
@@ -204,7 +204,7 @@ npm run dev
 Then navigate to: `http://localhost.local/examples/index.html`. From there, you can look through the example links and explore different view types, how they render, and how they’re defined in the corresponding HTML files.
 
 
-## 👨‍💻 The Parser And Contributing
+## 👨 The Parser And Contributing
 NextPage’s logic is split between parsing the protocol and rendering the interface.
 
 If you want to contribute new features like creating custom view types you’ll need to interact with the [NextPage Parser repository](https://github.com/theoromeo/NextPage-Parser).
