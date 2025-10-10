@@ -321,8 +321,8 @@ export default class UIManager {
 
         this.#ui.viewer.action.classList.add("bg-green-600")
 
-        this.#ui.viewer.actionLabel.innerText = node.action[0].trim()
-        this.#ui.viewer.action.href = node.action[1]
+        this.#ui.viewer.actionLabel.innerText = node.action.label
+        this.#ui.viewer.action.href = node.action.url
     }
 
     /**

@@ -1,4 +1,4 @@
-import NextPage from "./lib/NextPage.2025-02-12.min.js"
+import NextPage from "./lib/NextPage.0.8.0-beta.min.js"
 
 /**
  * Interpreter wraps the NextPage library and provides small helpers
@@ -36,6 +36,6 @@ export default class Interpreter {
      * or an Error instance on failure (the caller should check instanceof Error).
      */
     async getNode(href,nodeName) {
-        return await this.#nextPage.queryWithUrl(href,nodeName)
+        return await this.#nextPage.queryWithURL(href,nodeName)
     }
 }
