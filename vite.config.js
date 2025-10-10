@@ -39,6 +39,7 @@ const configBuild =
         assetsDir:"",
         emptyOutDir:false,
         minify:"esbuild",
+        sourcemap: true,
         rollupOptions: 
         {
             input: 
