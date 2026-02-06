@@ -22,7 +22,7 @@ This is just a quick start guide. For the full documentation, visit the [NextPag
 * [Installation](#-installation)
     - [CDN](#option-1-cdn)
     - [Self Hosted](#option-2-self-hosted)
-* [Live Examples (Demo)](#-live-examples-demo)
+<!-- * [Live Examples (Demo)](#-live-examples-demo) -->
 * [Components](#-components)
     - [Nodes](#-nodes)
     - [Fields](#-fields)
@@ -89,13 +89,13 @@ Download [the latest release](./releases/latest.min.js) or follow the build step
 > 📌 Note: Add the `<script>` tag to the `<head>` of every page where you want to enable NextPage functionality.
 
 
-## 🟢 Live Examples (Demo)
+<!-- ## 🟢 Live Examples (Demo)
 You can find links to live examples showcasing different types of views.
 
 Feel free to explore the source code using your browser’s inspector to see how the nodes are defined and how the components relate to each other.
 
 * [Basic Demo](https://nextpage.bypickering.com/demo-basic)
-* [Advanced Demo](https://nextpage.bypickering.com/demo-advanced)
+* [Advanced Demo](https://nextpage.bypickering.com/demo-advanced) -->
 
 ## 🧠 Components
 NextPage is built on a component system that enables webpages to define shareable, queryable content blocks. There are four main component:
