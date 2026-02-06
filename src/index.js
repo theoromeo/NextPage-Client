@@ -58,9 +58,9 @@ class NextPageClient extends HTMLElement
       this.DOM.innerHTML = `
       <style>
         ${css}
-      </style>
+      </style> 
 
-      <div id="nextpage-window" class=" pointer-events-none flex fixed top-0  left-0 flex-col w-screen h-[100${this.#getSupportedHeight()}]  py-4 px-4 justify-end ">
+      <div id="nextpage-window" class="z-[99999] pointer-events-none flex fixed top-0  left-0 flex-col w-screen h-[100${this.#getSupportedHeight()}]  py-4 px-4 justify-end ">
         ${loaderHtml}
         ${viewerHtml}
       </div>

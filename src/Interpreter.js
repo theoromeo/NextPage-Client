@@ -23,7 +23,6 @@ export default class Interpreter {
     getQueryNodeString(url) {
         const nodePosition = url.lastIndexOf(":")
         const nodeName = url.slice(nodePosition+1,url.length)
-
         return nodeName.trim().toLowerCase()
     }
 

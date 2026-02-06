@@ -110,7 +110,7 @@ export default class UIManager {
      * @returns {void}
      */
     #addHyperlinkInterceptorListener(linkElement) {
-        if(!linkElement || !linkElement.href || linkElement.href.trim() == "")
+        if(!linkElement || !linkElement.href || linkElement.href.trim() == "" || linkElement.nhref)
         return
 
         // Only works for links with a colon in the pathname
@@ -118,14 +118,16 @@ export default class UIManager {
         if(!url.pathname.includes(":"))
         return
 
+        console.log("Linked: ",linkElement)
         // Creating a new property to store the original href
         // "nhref" stands for "node href"
         // to preserve the original URL with query node
-        linkElement.nhref = linkElement.href
-        linkElement.href = this.#purgeHyperlinkQueryString(linkElement.href)
+        linkElement.nhref = this.#interpreter.getQueryNodeString(linkElement.href)
 
-        if(this.#interpreter.getQueryNodeString(linkElement.nhref) == "")
+        if(linkElement.nhref == "")
         return
+
+        linkElement.href = this.#purgeHyperlinkQueryString(linkElement.href)
 
         // Modifying the cursor to indicate node availability
         linkElement.setAttribute("style", linkElement.getAttribute("style")+"; cursor: alias;")
@@ -197,7 +199,7 @@ export default class UIManager {
         this.#hide(this.#ui.viewer.root)
         this.#show(this.#ui.loader.gif)
 
-        let queryNodeString = this.#interpreter.getQueryNodeString(url.href)
+        let queryNodeString = event.target.nhref
 
         if(queryNodeString == "default" || queryNodeString == "")
         queryNodeString = null
