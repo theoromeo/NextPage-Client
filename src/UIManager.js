@@ -118,7 +118,6 @@ export default class UIManager {
         if(!url.pathname.includes(":"))
         return
 
-        console.log("Linked: ",linkElement)
         // Creating a new property to store the original href
         // "nhref" stands for "node href"
         // to preserve the original URL with query node
@@ -213,7 +212,6 @@ export default class UIManager {
         
         if(nodeResult instanceof Error)
         {
-            console.log(nodeResult)
             this.#ui.loader.label.innerText = "Network Error"
             this.#hide(this.#ui.loader.gif)
             return
