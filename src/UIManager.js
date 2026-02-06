@@ -129,7 +129,9 @@ export default class UIManager {
         linkElement.href = this.#purgeHyperlinkQueryString(linkElement.href)
 
         // Modifying the cursor to indicate node availability
-        linkElement.setAttribute("style", linkElement.getAttribute("style")+"; cursor: alias;")
+        linkElement.setAttribute("style", linkElement.getAttribute("style")+"; cursor: alias !important;")
+        linkElement.setAttribute("npp-link", "");
+
         // Adding event listener to intercept clicks
         // and associated with the original URL (originalURL) with query node
         linkElement.addEventListener("click", (event) => this.#hyperlinkInterceptorEvent(event))

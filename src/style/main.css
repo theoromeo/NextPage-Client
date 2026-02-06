@@ -578,10 +578,6 @@ video {
   top: 0px;
 }
 
-.z-10 {
-  z-index: 10;
-}
-
 .z-\[999999999\] {
   z-index: 999999999;
 }
@@ -821,11 +817,6 @@ video {
 
 .bg-white\/0 {
   background-color: rgb(255 255 255 / 0);
-}
-
-.bg-yellow-300 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(253 224 71 / var(--tw-bg-opacity, 1));
 }
 
 .bg-opacity-10 {
