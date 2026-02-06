@@ -1,4 +1,4 @@
-import NextPage from "./lib/NextPage.0.8.0-beta.min.js"
+import NextPage from "parser"
 
 /**
  * Interpreter wraps the NextPage library and provides small helpers
