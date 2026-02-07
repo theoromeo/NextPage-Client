@@ -4,7 +4,6 @@
 
 ---
 ![Version](https://img.shields.io/badge/Version-beta-yellow)
-![Release](https://img.shields.io/badge/Build-2025--xx--xx-green?logo=vite)
 ![Licence](https://img.shields.io/badge/Licence-GPLv3.0-white) 
 [![Website](https://img.shields.io/badge/Website-nextpage--protocol-red?logo=html5)](https://nextpage.bypickering.com)
 [![Linkedin](https://img.shields.io/badge/Linkedin-Connect-blue)](https://www.linkedin.com/in/romeo-pickering/)
